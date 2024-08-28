@@ -93,7 +93,15 @@ group by [Class];
 	u Otro. Por lo cual si no es ni silver ni black se debe indicar
 	Otro. (Ayuda: utilizar case).
 */
---Falta
+select [Name] as 'Descripcion',
+case when [Color] not in ('Black', 'Silver') THEN 'Otro' -- Si no es black o silver, devuelve 'Otro'
+else [Color] -- Retorno el campo en caso de que no se cumpla la condicion del when
+end as 'Color' -- Nombre del campo nuevo
+from Production.Product
+where [Color] is not null;
+
+
+
 
 -- 19)  Listar el nombre de la categoría, el nombre de la subcategoría y la descripción del producto. (Ayuda: join) 
 select p.Name as 'Producto', ps.Name as 'Subcategoria', pc.Name as 'Categoria'
