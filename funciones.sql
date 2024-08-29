@@ -3,6 +3,10 @@
 */
 use Northwind;
 
+--Obtenemos la version y el lenguaje
+select @@VERSION;
+select @@LANGUAGE;
+
 /* min , max, count ,sum*/
 
 --Min : obtiene el valor minimo de una columna
@@ -20,4 +24,9 @@ from Employees;
 --Sum : obtiene la sumatoria de una columna
 select sum([EmployeeID]) as 'Sumatoria de ids'
 from Employees;
+
+
+--Conversiones de datetime a varchar
+select convert(varchar(255), GETDATE(), 103) as 'VARCHAR DATETIME';
+
 
