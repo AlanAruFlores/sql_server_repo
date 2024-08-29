@@ -46,3 +46,27 @@ set @numero = cast(@numeroString as int); -- casteo el varchar a un string
 select @numero+'10' as 'Numero'; --Suma el valor del numero (20) + 10  = 30
 
 
+/*
+	Funciones para cadenas
+*/
+
+-- SUBSTRING (cadena, inicio, longitud) --> obtiene una parte de la cadena especificada en los ultimos 2 argumentos
+declare @saludo varchar(100);
+set @saludo = 'Hola como esta?';
+select substring(@saludo, 1,4); -- Hola
+
+-- CHARINDEX (substring, string, inicio) --> busca un texto especifico dentro de otro texto, el ultimo parametro indica desde donde va a buscar
+select charindex('como', @saludo, 4); -- Devuelve 6 ya que a partir de ese indice se encuentra el substring.
+
+-- PATINDEX(%patron%, string) --> devuelve la posicion donde el patron se cumple en una cadena. Si no se encuentra devuelve 0
+declare @indicePatIndex int;
+set @indicePatIndex = PATINDEX('%como%', @saludo)
+select @indicePatIndex as 'PATINDEX RESULTADO';
+
+--str(numero, longitud, cantidad_decimales):  convierte el numero en caracteres, especificando 	
+select str(123.456,7,2)-- en este caso le digo que el numero en decimales lo mande a string, pero que solo me muestre los 7 caracteres (2do parametro) y me muestre 2 decimales
+
+
+
+
+
