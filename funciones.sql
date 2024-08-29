@@ -27,6 +27,22 @@ from Employees;
 
 
 --Conversiones de datetime a varchar
+
+-- CONVERT()
 select convert(varchar(255), GETDATE(), 103) as 'VARCHAR DATETIME';
+
+
+--CAST() --> Se usa para castear variables
+declare 
+	@texto varchar(255),
+	@numeroString varchar(10),
+	@numero int;
+
+set @texto = 'Hola';
+select @texto+' desde SQL Server' as 'Texto'; -- Concateno 2 strings
+
+set @numeroString='20';
+set @numero = cast(@numeroString as int); -- casteo el varchar a un string
+select @numero+'10' as 'Numero'; --Suma el valor del numero (20) + 10  = 30
 
 
