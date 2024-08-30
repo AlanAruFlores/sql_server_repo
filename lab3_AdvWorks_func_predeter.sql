@@ -112,9 +112,34 @@ de 30 años. Listar todos los datos en mayúscula. Los datos a visualizar son:
 nombre y apellido del empleado, dirección y ciudad
 */
 
+select pp.FirstName as 'Nombre', pp.LastName as 'Apellido',pa.AddressLine1 as 'Direccion', pa.City as 'Ciudad'
+from HumanResources.Employee as em inner join Person.Person as pp on em.BusinessEntityID = pp.BusinessEntityID
+inner join Person.BusinessEntityAddress as bea on bea.BusinessEntityID = pp.BusinessEntityID
+inner join Person.Address as pa on pa.AddressID = bea.AddressID
+where datediff(year,em.BirthDate, getdate()) > 30 and pp.PersonType like 'SP';
 
-select *
-from Person.Person;
 
+/*
+16. Listar la cantidad de empleados hombres y mujeres, de la siguiente forma: 
+*/
+select 
+case 
+when [Gender] = 'M' then replace([Gender], 'M', 'Masculino') 
+else replace([Gender], 'F','Femenino')
+end
+as 'Sexo' , count(*) as 'Cantidad'
+from HumanResources.Employee
+group by [Gender];
 
+/*
+17. Categorizar a los empleados según la cantidad de horas de vacaciones,
+según el siguiente formato:
+*/
 
+select pp.FirstName+space(1)+pp.LastName as 'Empleado', 
+case
+when em.VacationHours < 20 then 'Bajo'
+when em.VacationHours >= 20 and em.VacationHours <=50 then 'Medio'
+else 'Alto'
+end as 'Horas'
+from HumanResources.Employee as em inner join Person.Person as pp  on em.BusinessEntityID = pp.BusinessEntityID;
