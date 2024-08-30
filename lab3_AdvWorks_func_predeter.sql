@@ -1,5 +1,5 @@
 /*
-	Lab3_AdvWors_FUNC_PREDETER
+	Lab3_AdvWors_FUNC_PREDETER - Resolucion
 */
 
 use AdventureWorks2014;
