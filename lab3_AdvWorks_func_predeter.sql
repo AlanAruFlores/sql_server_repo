@@ -141,5 +141,5 @@ case
 when em.VacationHours < 20 then 'Bajo'
 when em.VacationHours >= 20 and em.VacationHours <=50 then 'Medio'
 else 'Alto'
-end as 'Horas'
+end as 'Hora'
 from HumanResources.Employee as em inner join Person.Person as pp  on em.BusinessEntityID = pp.BusinessEntityID;
