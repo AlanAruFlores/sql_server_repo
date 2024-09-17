@@ -12,6 +12,7 @@ SIZE = 5 MB,
 FILEGROWTH = 0);
 
 -- Metadatos
+use crud_producto;
 
 select * from sys.databases; -- MUESTRA TODAS LAS Bases de datos DEL SISTEMA
 
@@ -24,6 +25,8 @@ select * from sys.views; -- MUESTRA LAS VISTAS DE UNA BD
 select * from sys.columns; -- DEVUELVE UN REGISTRO POR CADA COLUMNADE UN OBJETO
 
 select * from sys.sysfiles; -- MUESTRA LOS ARCHIVOS DE LA BD Actual
+
+select * from sys.sysobjects;
 
 --SEGURIDAD 
 
@@ -41,9 +44,9 @@ select db_id('crud_producto'); -- 10
 select db_name(10); -- crud_producto
 
 /* FILE_ID: DEVUELVE EL NUMERO DE IDENTIFICACION DEL ARCHIVO (ID) DEL NOMBRE DEL ARCHIVO LOGICO DADO DE LA BD ACTUAL*/
-select file_id('crud_producto');
+select file_id('crud_producto_log');
 
-select file_name(1);
+select file_name(2);
 
 
 
@@ -59,9 +62,6 @@ exec sp_databases; -- Muestra las bases de datos y su tamaño en MB
 exec sp_helpdb; -- Muestra toda la informacion de las bases de datos de un servidor
 
 exec sp_help; -- Muestra toda la informacion de una base de datos
-
-
-
 
 
 
