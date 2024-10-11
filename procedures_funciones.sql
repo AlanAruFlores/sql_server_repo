@@ -73,6 +73,29 @@ exec sp_multiplicar 2, 4, @res OUTPUT;
 select @res;
 
 
+-- TRY CATCH
+
+create proc sp_excepcionAritmetica
+as
+	begin try -- Intenta realizar este comando
+		select 1/0 as 'Error';
+	end try
+	begin catch -- Si surge una excepcion, salta los logs 
+		select ERROR_LINE() as 'Linea de error',
+			   ERROR_MESSAGE() as 'Mensaje Error',
+			   ERROR_STATE() as 'Error State',
+			   ERROR_PROCEDURE() as 'Error Procedure',
+			   ERROR_SEVERITY() as 'Error Severity';
+	end catch
+go
+
+exec sp_excepcionAritmetica;
+
+
+
+
+
+
 
 
 
