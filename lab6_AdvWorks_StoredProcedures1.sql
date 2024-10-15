@@ -118,9 +118,9 @@ as
 
 		if @operacion = 'U'
 		begin
-			declare @idValido smallint;
-			exec sp_ExisteCultureId @id, @idValido output;
-			if(@idValido = 1)
+			declare @idValidoUpdate smallint;
+			exec sp_ExisteCultureId @id, @idValidoUpdate output;
+			if(@idValidoUpdate = 1)
 			begin
 				set @valida = 1
 			end
@@ -146,12 +146,13 @@ as
 		
 		else if @operacion = 'D'
 		begin
-			declare @idValido smallint;
-			exec sp_ExisteCultureId @id, @idValido output;
-			if(@idValido = 1)
-			begin
+			declare @existe smallint;
+			select @existe = count(*)
+			from Production.Culture pc inner join Production.ProductModelProductDescriptionCulture pcdc
+			on pc.CultureID = pcdc.CultureID where pc.CultureID = @id;
+			
+			if(@existe != 0)
 				set @valida = 1
-			end
 		end
 go
 
@@ -176,6 +177,55 @@ select @id, @name,@date;
 
 --9)
 
+alter proc sp_InsCulture(@id nchar(12),@name  varchar(100), @date datetime)
+as 
+	declare @valida smallint;
+	exec sp_ValCulture @id, @name, @date,'I',@valida output;
+	
+	if(@valida = 1)
+	begin
+		insert into Production.Culture (CultureID, Name, ModifiedDate) values(@id,@name,@date);
+	end
+go
+
+declare @fecha datetime = getdate();
+
+exec sp_InsCulture 'el' , 'elanguage', @fecha;
+
+--10)
+
+create proc sp_UpdCulture(@id nchar(12), @name varchar(100), @date datetime)
+as
+	declare @valida smallint;
+	exec sp_ValCulture @id, @name, @date,'U',@valida output;
+	
+	if(@valida = 1)
+	begin
+		update Production.Culture set Name = @name , ModifiedDate = @date where CultureID = @id;
+	end
+go
+
+--11)
+
+create proc sp_DelCulture(@id nchar(12),@name varchar(100), @date datetime)
+as
+	declare @valida smallint;
+	exec sp_ValCulture @id, @name, @date,'D',@valida output;
+	
+	if(@valida = 1)
+	begin
+		delete Production.Culture where CultureID = @id;
+	end
+go
+
+
 select * from Production.Culture;
+
+
+
+
+
+
+
 
 
