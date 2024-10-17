@@ -1,4 +1,4 @@
-
+﻿
 /*Procedimientos y Funciones*/
 
 
@@ -22,7 +22,7 @@ select @variable
 
 /*
 Queremos saber todos los datos de productos con mayor precio de la tabla "Product". 
-Para ello podemos emplear una variable para almacenar el precio m�s alto
+Para ello podemos emplear una variable para almacenar el precio más alto
 */
 
 use Northwind;
@@ -92,7 +92,65 @@ go
 exec sp_excepcionAritmetica;
 
 
+/*Funciones Escalares*/
+use AdventureWorks2014
 
+--Funciones Escalares
+create schema Sales;
+
+CREATE FUNCTION Sales.SumSold(@ProductID int) RETURNS int  
+AS  
+BEGIN 
+  DECLARE @ret int 
+  SELECT @ret = SUM(OrderQty)  
+  FROM Sales.SalesOrderDetail WHERE ProductID = @ProductID  
+  IF (@ret IS NULL)  
+    SET @ret = 0 
+  RETURN @ret 
+END 
+
+SELECT ProductID, [Name], Sales.SumSold(ProductID) AS SumSold FROM Production.Product; 
+
+
+--Funciones Tabulares en Linea
+CREATE FUNCTION HumanResources.EmployeesForBussinesEntityId(@BussinessEntityId int)  
+RETURNS TABLE 
+AS 
+RETURN  
+( 
+  SELECT * 
+  FROM HumanResources.Employee Employee  
+  WHERE Employee.BusinessEntityID = @BussinessEntityId  
+) 
+
+SELECT * FROM HumanResources.EmployeesForBussinesEntityId(3) 
+SELECT * FROM HumanResources.EmployeesForBussinesEntityId(6) 
+
+--Funciones Tabulares MultiSentencia
+
+CREATE FUNCTION HumanResources.EmployeeNames(@format nvarchar(9)) 
+RETURNS @tbl_Employees TABLE --Devuelve una tabla con su nombre especifico
+  ( 
+    EmployeeID int PRIMARY KEY,  
+    EmployeeName nvarchar(100) 
+  ) 
+AS 
+BEGIN 
+  IF (@format = 'SHORTNAME') 
+    INSERT @tbl_Employees  
+    SELECT [BusinessEntityID], LastName  
+    FROM Person.Person
+  ELSE IF (@format = 'LONGNAME') 
+    INSERT @tbl_Employees  
+    SELECT [BusinessEntityID], (FirstName + ' ' + LastName)  
+    FROM Person.Person 
+RETURN 
+END 
+
+select * from HumanResources.EmployeeNames('SHORTNAME');
+select * from HumanResources.EmployeeNames('LONGNAME');
+
+SELECT * FROM Person.Person
 
 
 
